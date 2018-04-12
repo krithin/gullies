@@ -37,11 +37,15 @@ if __name__ == '__main__':
 	"""Picks out NUM_NODES randomly selected nodes from the given OSM
 	dataset and prints their lat,long coordinates.
 	"""
-	NUM_NODES = 1000
-	if not len(sys.argv) == 2:
-		sys.exit('Usage: %s myregion.osm.pbf' % sys.argv[0])
+	# TODO: use argparse instead of parsing ordered command line args.
+	if not len(sys.argv) == 3:
+		sys.exit('Usage: %s myregion.osm.pbf num_nodes' % sys.argv[0])
+	try:
+		num_nodes = int(sys.argv[2])
+	except ValueError:
+		sys.exit('Usage: %s myregion.osm.pbf num_nodes' % sys.argv[0])
 
-	random_handler = RandomNodeSelector(NUM_NODES)
+	random_handler = RandomNodeSelector(num_nodes)
 	random_handler.apply_file(sys.argv[1])
 	locations = random_handler.location_list
 	
