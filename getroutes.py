@@ -68,17 +68,6 @@ class OSRMRouteNodesClient():
 
 		return route['legs'][0]['annotation']['nodes']
 
-	def route_to_destinations(self, destinations: Iterable[Location]) -> List[List[int]]:
-		# This could probably be done with the table service instead.
-		# https://github.com/Project-OSRM/osrm-backend/blob/master/docs/http.md#table-service
-		MAX_ROUTE_COUNT = 1000
-		routes = []
-		for destination in destinations:
-			routes.append(self.route_to_destination(destination))
-			if len(routes) == MAX_ROUTE_COUNT:
-				break
-		return routes
-
 if __name__ == '__main__':
 	if not len(sys.argv) == 2:
 		sys.exit('Usage: %s http://my-osrm-server.cc[:port]')
@@ -97,5 +86,10 @@ if __name__ == '__main__':
 			pass
 		else:
 			destinations.append(destination)
-	for route in osrm_client.route_to_destinations(destinations):
+
+	# TODO: consider using the table service instead to do multiple
+	# route queries in parallel. See:
+	# https://github.com/Project-OSRM/osrm-backend/blob/master/docs/http.md#table-service
+	for destination in destinations:
+		route = osrm_client.route_to_destination(destination)
 		print(repr(route)[1:-1])  # Remove the []-brackets around the list
