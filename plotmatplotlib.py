@@ -79,10 +79,11 @@ if __name__ == '__main__':
 		sys.exit('Usage: %s output_filename.png' % sys.argv[0])
 
 	raw_segments = common.read_segments()
+	print('About to simplify %d raw segments.' % len(raw_segments))
 	segments: Set[common.WeightedLine] = simplify_segments(raw_segments)
 	count = 0
 
-	fig = plt.figure(figsize=(24,18), dpi=200)
+	fig = plt.figure(figsize=(24,18), dpi=400)
 	ax = fig.add_subplot(111)
 	ax.text(0.99, 0.01,
 	    'github.com/krithin. Data © OpenStreetMap contributors.',
@@ -93,7 +94,7 @@ if __name__ == '__main__':
 		plt.plot([s.start.longitude, s.end.longitude],
 		         [s.start.latitude, s.end.latitude],
 		         color = 'k', linestyle = '-', solid_capstyle = 'round',
-		         linewidth = math.sqrt(s.weight))
+		         linewidth = math.sqrt(s.weight) / 2)
 		count += 1
 		if (count % 5000 == 0):
 			print('Plotted %d of %d segments' % (count, len(segments)))
