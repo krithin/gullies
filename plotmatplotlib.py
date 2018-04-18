@@ -40,8 +40,6 @@ def simplify_segments(segments: Iterable[common.WeightedLine]) -> Set[common.Wei
 	MIN_SQ_LENGTH = 1  # (Min length in km) ^ 2.
 	# Two different indexes into the set of segments that are under the
 	# minimum plotting length; by their start and end points.
-	mergeable_segments_by_start: DefaultDict[
-	    common.Location, Set[common.WeightedLine]] = defaultdict(set)
 	mergeable_segments_by_end: DefaultDict[
 	    common.Location, Set[common.WeightedLine]] = defaultdict(set)
 	plottable_segments: Set[common.WeightedLine] = set()
@@ -55,14 +53,6 @@ def simplify_segments(segments: Iterable[common.WeightedLine]) -> Set[common.Wei
 			# Check if we can merge s with some other short segment. In
 			# general it may be merged on both the start and end.
 			segments_to_remove: List[common.WeightedLine] = []
-			for m in mergeable_segments_by_start[s.end]:
-				if m.weight == s.weight:
-					print('merged start %d %s %s' % (i, repr(m), repr(s)))
-					segments_to_remove.append(m)
-					s = common.WeightedLine(s.start, m.end, s.weight)
-					if length_squared(s) > MIN_SQ_LENGTH:
-						plottable_segments.add(s)
-					break
 			for m in mergeable_segments_by_end[s.start]:
 				if m.weight == s.weight:
 					segments_to_remove.append(m)
@@ -72,19 +62,15 @@ def simplify_segments(segments: Iterable[common.WeightedLine]) -> Set[common.Wei
 					break
 			for m in segments_to_remove:
 				if m.start == common.Location(latitude=40.578471, longitude=-73.989452):
-					print(repr(mergeable_segments_by_start[m.start]))
-					print(repr(m.start))
 					print(repr(mergeable_segments_by_end[m.end]))
 					print(repr(m.end))
 					print(i)
-				mergeable_segments_by_start[m.start].remove(m)
 				mergeable_segments_by_end[m.end].remove(m)
-			if s not in plottable_segments:
-				mergeable_segments_by_start[s.start].add(s)
+			if s not in plottable_segments and s.start != s.end:
 				mergeable_segments_by_end[s.end].add(s)
 
 	# Unpack all the remaining unmerged segments into a single set
-	unmerged_segments = set.union(*mergeable_segments_by_start.values())
+	unmerged_segments = set.union(*mergeable_segments_by_end.values())
 	print('%d segments above minimum length, %d below' % (
 	    len(plottable_segments), len(unmerged_segments)))
 	return plottable_segments.union(unmerged_segments)
