@@ -43,9 +43,7 @@ def simplify_segments(segments: Iterable[common.WeightedLine]) -> Set[common.Wei
 	mergeable_segments_by_end: DefaultDict[
 	    common.Location, Set[common.WeightedLine]] = defaultdict(set)
 	plottable_segments: Set[common.WeightedLine] = set()
-	i = 0
 	for s in segments:
-		i += 1
 		if length_squared(s) > MIN_SQ_LENGTH:
 			# s is already long enough by itself that we can plot it.
 			plottable_segments.add(s)
@@ -61,10 +59,6 @@ def simplify_segments(segments: Iterable[common.WeightedLine]) -> Set[common.Wei
 						plottable_segments.add(s)
 					break
 			for m in segments_to_remove:
-				if m.start == common.Location(latitude=40.578471, longitude=-73.989452):
-					print(repr(mergeable_segments_by_end[m.end]))
-					print(repr(m.end))
-					print(i)
 				mergeable_segments_by_end[m.end].remove(m)
 			if s not in plottable_segments and s.start != s.end:
 				mergeable_segments_by_end[s.end].add(s)
