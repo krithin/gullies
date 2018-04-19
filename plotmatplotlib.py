@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 
-from typing import Iterable, Set, NamedTuple
+from typing import DefaultDict, Iterable, List, Set, NamedTuple
+from collections import defaultdict
 import sys
 import math
 
@@ -35,40 +36,38 @@ def simplify_segments(segments: Iterable[common.WeightedLine]) -> Set[common.Wei
 	# and have the same weight (which means their shared endpoint must
 	# not have been a branching point), and one of them is under 1km
 	# long.
-	# This relies on the fact that shortest-path routes never intersect!
 	MIN_SQ_LENGTH = 1  # (Min length in km) ^ 2.
-	mergeable_segments: Set[common.WeightedLine] = set()
+	# Segments that are under the minimum plotting length, indexed by
+	# their end location.
+	mergeable_segments_by_end: DefaultDict[
+	    common.Location, Set[common.WeightedLine]] = defaultdict(set)
 	plottable_segments: Set[common.WeightedLine] = set()
 	for s in segments:
 		if length_squared(s) > MIN_SQ_LENGTH:
 			# s is already long enough by itself that we can plot it.
 			plottable_segments.add(s)
 		else:
-			# Check if we can merge s with some other short segment. In
-			# general it may be merged on both the front and back.
-			segments_to_remove: List[common.WeightedLine] = []
-			for c in mergeable_segments:
-				if not s.weight == c.weight:
-					continue
-				if s.start == c.end:
-					segments_to_remove.append(c)
-					s = common.WeightedLine(c.start, s.end, s.weight)
-					if length_squared(s) > MIN_SQ_LENGTH:
-						plottable_segments.add(s)
-						break
-				elif s.end == c.start:
-					segments_to_remove.append(c)
-					s = common.WeightedLine(s.start, c.end, s.weight)
-					if length_squared(s) > MIN_SQ_LENGTH:
-						plottable_segments.add(s)
-						break
-			for c in segments_to_remove:
-				mergeable_segments.remove(c)
-			if s not in plottable_segments:
-				mergeable_segments.add(s)
+			# Check if we can merge s with some other short segment.
+			match_found = False
+			for m in mergeable_segments_by_end[s.start]:
+				if m.weight == s.weight:
+					match_found = True
+					s = common.WeightedLine(m.start, s.end, s.weight)
+					break
+			if match_found:
+				mergeable_segments_by_end[m.end].remove(m)
+			# Discard zero-length segments out of hand
+			if s.start != s.end:
+				if length_squared(s) > MIN_SQ_LENGTH:
+					plottable_segments.add(s)
+				else:
+					mergeable_segments_by_end[s.end].add(s)
+
+	# Unpack all the remaining unmerged segments into a single set
+	unmerged_segments = set.union(*mergeable_segments_by_end.values())
 	print('%d segments above minimum length, %d below' % (
-	    len(plottable_segments), len(mergeable_segments)))
-	return plottable_segments.union(mergeable_segments)
+	    len(plottable_segments), len(unmerged_segments)))
+	return plottable_segments.union(unmerged_segments)
 
 if __name__ == '__main__':
 	"""Reads a list of route segment weights (expressed in the format
