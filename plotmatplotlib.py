@@ -85,7 +85,9 @@ if __name__ == '__main__':
 	fig = plt.figure(figsize=(24,18), dpi=400)
 	ax = fig.add_subplot(111)
 	ax.text(0.99, 0.01,
-	    'github.com/krithin. Data © OpenStreetMap contributors.',
+	    'github.com/krithin/gullies. '
+	    'Data © OpenStreetMap contributors. '
+	    'Routing by OSRM.',
 	    verticalalignment = 'bottom', horizontalalignment = 'right',
 	    transform = ax.transAxes, fontsize = 12)
 	print('About to plot %d segments' % len(segments))
