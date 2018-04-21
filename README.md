@@ -1,7 +1,7 @@
 ## Gullies
 Maps of routes draining into a common sink from all over a road network.
 
-![New York roads](output/nyplacesandcosubs_fine.png)
+TODO: put in an image from the whole-US map here.
 
 Inspired by moovel labs' [Roads to Rome](https://lab.moovel.com/projects/roads-to-rome) and Topi Tjukanov's [Roads of America](https://tjukanov.org/roadsofamerica/).
 
@@ -16,15 +16,32 @@ In more detail:
 curl -O http://download.geofabrik.de/north-america/us/new-york-latest.osm.pbf
 ```
 
-2. Get OSRM, following the instructions at https://github.com/Project-OSRM/osrm-backend:
+2. Get OSRM. If you want to build from source, you can do so following the instructions at https://github.com/Project-OSRM/osrm-backend/wiki/Building-OSRM:
+```	
+git clone https://github.com/Project-OSRM/osrm-backend.git
+mkdir osrm-backend/build
+cd osrm-backend/build
+cmake ..
+cmake --build .
 ```
-fill in osrm instructions here.
-```
-and get it to start routing against the same snapshot:
-```
-```
-(you can also build OSRM locally instead of using docker if you wish)
+Note: You can also use the [osrm-backend docker image](https://github.com/Project-OSRM/osrm-backend/wiki/Docker-Recipes) instead of building from source if you wish.
 
-You'll also need to install the [matplotlib](https://matplotlib.org/users/installing.html) and [python-requests](https://github.com/requests/requests) python packages using `pip` or your favourite package manager.
+3. Preprocess the OSM snapshot you downloaded earlier so OSRM can route against it:
+```
+cd osrm-backend
+build/osrm-extract -p profiles/car.lua ~/new-york-latest.osm.pbf
+build/osrm-partition ~/new-york-latest.osrm
+build/osrm-customize ~/new-york-latest.osrm
+```
+Warning: This step might take a lot of memory. `osrm-extract` for a map of the whole of the US peaked at 46 GiB of RAM used.
+
+You'll also need to install the following Python packages, using either `pip` or your favourite package manager:
+* [matplotlib](https://matplotlib.org/users/installing.html)
+* [requests](https://github.com/requests/requests)
+* [osmium](https://github.com/osmcode/pyosmium)
 
 ### Generating images
+
+## Gallery
+Roads from all over New York state, draining into New York City:
+![New York roads](output/nyplacesandcosubs_fine.png)
