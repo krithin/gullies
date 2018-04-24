@@ -36,7 +36,7 @@ def simplify_segments(segments: Iterable[common.WeightedLine]) -> Set[common.Wei
 	# and have the same weight (which means their shared endpoint must
 	# not have been a branching point), and one of them is under 1km
 	# long.
-	MIN_SQ_LENGTH = 1  # (Min length in km) ^ 2.
+	MIN_SQ_LENGTH = 16  # (Min length in km) ^ 2.
 	# Segments that are under the minimum plotting length, indexed by
 	# their end location.
 	mergeable_segments_by_end: DefaultDict[
@@ -95,7 +95,7 @@ if __name__ == '__main__':
 		plt.plot([s.start.longitude, s.end.longitude],
 		         [s.start.latitude, s.end.latitude],
 		         color = 'k', linestyle = '-', solid_capstyle = 'round',
-		         linewidth = math.sqrt(s.weight) / 2)
+		         linewidth = math.log1p(s.weight))
 		count += 1
 		if (count % 5000 == 0):
 			print('Plotted %d of %d segments' % (count, len(segments)))
