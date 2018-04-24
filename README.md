@@ -35,12 +35,29 @@ build/osrm-customize ~/new-york-latest.osrm
 ```
 Warning: This step might take a lot of memory. `osrm-extract` for a map of the whole of the US peaked at 46 GiB of RAM used.
 
+4. Start the OSRM server:
+```
+build/osrm-routed --algorithm mld ~/new-york-latest.osrm
+```
+
 You'll also need to install the following Python packages, using either `pip` or your favourite package manager:
 * [matplotlib](https://matplotlib.org/users/installing.html)
 * [requests](https://github.com/requests/requests)
 * [osmium](https://github.com/osmcode/pyosmium)
 
 ### Generating images
+Get started by cloning this repo:
+```
+git clone https://github.com/krithin/gullies.git
+cd gullies
+```
+
+1. Generate a set of destination points to route to:
+```
+python getlocations.py ~/new-york-latest.osm.pbf 10000 > nylocations.csv
+```
+As an alternative to using getlocations.py to generate the locations,
+you can instead use one of the census datasets included in [inputdata/](inputdata/).
 
 ## Gallery
 Roads from all over New York state, draining into New York City:
