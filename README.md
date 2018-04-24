@@ -59,6 +59,22 @@ python getlocations.py ~/new-york-latest.osm.pbf 10000 > nylocations.csv
 As an alternative to using getlocations.py to generate the locations,
 you can instead use one of the census datasets included in [inputdata/](inputdata/).
 
+2. Generate routes to those points:
+```
+cat nylocations.csv | python getroutes.py http://localhost:5000 > nyroutes.txt
+```
+
+3. Collate the resulting routes:
+```
+cat nyroutes.txt | python collatesegments.py ~/new-york-latest.osm.pbf > nyroutescollated.txt
+```
+
+4. And produce a plot:
+```
+cat nyroutescollated.txt | python plotmatplotlib.py new-york.png
+```
+If you run this last step on a server machine without X or some other graphical interface installed, you might encounter a known Matplotlib issue for which the solution is to [explicitly specify a plotting backend](https://stackoverflow.com/questions/4931376/generating-matplotlib-graphs-without-a-running-x-server#4935945)
+
 ## Gallery
 Roads from all over New York state, draining into New York City:
 ![New York roads](output/nyplacesandcosubs_fine.png)
