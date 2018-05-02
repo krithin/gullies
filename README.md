@@ -77,3 +77,6 @@ cd gullies
 ## Gallery
 Roads from all over New York state, draining into New York City:
 ![New York roads](output/nyplacesandcosubs_fine.png)
+
+Roads from all over the contiguous United States, draining into the mouth of the Mississippi at New Orleans:
+![New Orleans roads](output/neworleans.png)
