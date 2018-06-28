@@ -82,7 +82,20 @@ if __name__ == '__main__':
 	segments: Set[common.WeightedLine] = simplify_segments(raw_segments)
 	count = 0
 
-	fig = plt.figure(figsize=(24,18), dpi=400)
+	# Match the figure aspect ratio to the data, assuming we want an
+	# equirectangular projection.
+	latlongs = [(s.end.latitude, s.end.longitude) for s in segments]
+	latitudes, longitudes = zip(*latlongs)
+	lat_range = max(latitudes) - min(latitudes)
+	lon_range = max(longitudes) - min(longitudes)
+	long_side_length = 24.0
+	if lat_range > lon_range:
+		short_side_length = long_side_length * lon_range / lat_range
+		figsize = (short_side_length, long_side_length)
+	else:
+		short_side_length = long_side_length * lat_range / lon_range
+		figsize = (long_side_length, short_side_length)
+	fig = plt.figure(figsize=figsize, dpi=400)
 	ax = fig.add_subplot(111)
 	ax.text(0.99, 0.01,
 	    'github.com/krithin/gullies. '
