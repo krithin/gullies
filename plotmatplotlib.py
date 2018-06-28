@@ -91,10 +91,10 @@ if __name__ == '__main__':
 	long_side_length = 24.0
 	if lat_range > lon_range:
 		short_side_length = long_side_length * lon_range / lat_range
-		figsize = (long_side_length, short_side_length)
+		figsize = (short_side_length, long_side_length)
 	else:
 		short_side_length = long_side_length * lat_range / lon_range
-		figsize = (short_side_length, long_side_length)
+		figsize = (long_side_length, short_side_length)
 	fig = plt.figure(figsize=figsize, dpi=400)
 	ax = fig.add_subplot(111)
 	ax.text(0.99, 0.01,
