@@ -75,8 +75,17 @@ cd gullies
     If you run this last step on a server machine without X or some other graphical interface installed, you might encounter a known Matplotlib issue for which the solution is to [explicitly specify a plotting backend](https://stackoverflow.com/questions/4931376/generating-matplotlib-graphs-without-a-running-x-server#4935945)
 
 ## Gallery
+Australia from Sydney
+![Australia roads](output/australia.png)
+
+Britain
+![Britain](output/britain.svg)
+
 Roads from all over New York state, draining into New York City:
 ![New York roads](output/nyplacesandcosubs_fine.png)
+
+Singapore
+![Singapore](output/singapore.svg)
 
 Roads from all over the contiguous United States, draining into the mouth of the Mississippi at New Orleans:
 ![New Orleans roads](output/neworleans.png)
