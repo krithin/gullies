@@ -82,7 +82,7 @@ Britain
 ![Britain](output/britain.svg)
 
 Roads from all over New York state, draining into New York City:
-![New York roads](output/nyplacesandcosubs_fine.png)
+![New York roads](output/newyork.png)
 
 Singapore
 ![Singapore](output/singapore.svg)

@@ -36,7 +36,7 @@ def simplify_segments(segments: Iterable[common.WeightedLine]) -> Set[common.Wei
 	# and have the same weight (which means their shared endpoint must
 	# not have been a branching point), and one of them is under 1km
 	# long.
-	MIN_SQ_LENGTH = 16  # (Min length in km) ^ 2.
+	MIN_SQ_LENGTH = 4  # (Min length in km) ^ 2.
 	# Segments that are under the minimum plotting length, indexed by
 	# their end location.
 	mergeable_segments_by_end: DefaultDict[
@@ -88,14 +88,14 @@ if __name__ == '__main__':
 	latitudes, longitudes = zip(*latlongs)
 	lat_range = max(latitudes) - min(latitudes)
 	lon_range = max(longitudes) - min(longitudes)
-	long_side_length = 24.0
+	long_side_length = 30.0
 	if lat_range > lon_range:
 		short_side_length = long_side_length * lon_range / lat_range
 		figsize = (short_side_length, long_side_length)
 	else:
 		short_side_length = long_side_length * lat_range / lon_range
 		figsize = (long_side_length, short_side_length)
-	fig = plt.figure(figsize=figsize, dpi=400)
+	fig = plt.figure(figsize=figsize)
 	ax = fig.add_subplot(111)
 	ax.text(0.99, 0.01,
 	    'github.com/krithin/gullies. '
@@ -113,4 +113,7 @@ if __name__ == '__main__':
 		if (count % 5000 == 0):
 			print('Plotted %d of %d segments' % (count, len(segments)))
 	print('Saving figure')
-	plt.savefig(sys.argv[1])
+	plt.axis('off')
+	ax.get_xaxis().set_visible(False)
+	ax.get_yaxis().set_visible(False)
+	plt.savefig(sys.argv[1], bbox_inches='tight', pad_inches=0, dpi=600)
