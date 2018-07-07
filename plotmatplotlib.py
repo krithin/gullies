@@ -18,21 +18,9 @@ if __name__ == '__main__':
 	segments = common.read_segments()
 	count = 0
 
-	# Match the figure aspect ratio to the data, assuming we want an
-	# equirectangular projection.
-	latlongs = [(s.end.latitude, s.end.longitude) for s in segments]
-	latitudes, longitudes = zip(*latlongs)
-	lat_range = max(latitudes) - min(latitudes)
-	lon_range = max(longitudes) - min(longitudes)
-	long_side_length = 30.0
-	if lat_range > lon_range:
-		short_side_length = long_side_length * lon_range / lat_range
-		figsize = (short_side_length, long_side_length)
-	else:
-		short_side_length = long_side_length * lat_range / lon_range
-		figsize = (long_side_length, short_side_length)
-	fig = plt.figure(figsize=figsize)
+	fig = plt.figure(figsize=(30,30))
 	ax = fig.add_subplot(111)
+	ax.axes.set_aspect('equal', 'box')
 	ax.text(0.99, 0.01,
 	    'github.com/krithin/gullies. '
 	    'Data © OpenStreetMap contributors. '
