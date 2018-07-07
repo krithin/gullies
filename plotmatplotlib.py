@@ -41,8 +41,9 @@ if __name__ == '__main__':
 	    transform = ax.transAxes, fontsize = 12)
 	print('About to plot %d segments' % len(segments))
 	for s in segments:
-		plt.plot([s.start.longitude, s.end.longitude],
-		         [s.start.latitude, s.end.latitude],
+		startx, starty = m(s.start.longitude, s.start.latitude)
+		endx, endy = m(s.end.longitude, s.end.latitude)
+		plt.plot([startx, endx], [starty, endy],
 		         color = 'k', linestyle = '-', solid_capstyle = 'round',
 		         linewidth = math.log1p(s.weight))
 		count += 1
