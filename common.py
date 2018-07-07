@@ -2,6 +2,11 @@ from typing import List, NamedTuple
 import sys
 
 class Location(NamedTuple):
+	"""Represents a lat,long coordinate pair.
+
+	Latitude and longitude should be expressed in floating-point
+	degrees.
+	"""
 	latitude: float
 	longitude: float
 
