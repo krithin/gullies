@@ -22,6 +22,9 @@ if __name__ == '__main__':
 	fig = plt.figure(figsize=(30,30))
 	ax = fig.add_subplot(111)
 	ax.axes.set_aspect('equal', 'box')
+	# for aea: lat_1=29.5, lat_2=45.5, lat_0=39.83, lon_0=-98.58,
+	m = Basemap(projection='cyl', llcrnrlon=-125.0, llcrnrlat=24.0, urcrnrlon=-66.0, urcrnrlat=49.5)
+	m.drawcoastlines()
 	ax.text(0.99, 0.01,
 	    'github.com/krithin/gullies. '
 	    'Data © OpenStreetMap contributors. '
