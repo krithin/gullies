@@ -85,7 +85,8 @@ if __name__ == '__main__':
 
 	print('About to simplify %d raw segments.' % len(raw_segments),
 	      file=sys.stderr)
-	segments: Set[common.WeightedLine] = simplify_segments(raw_segments)
+	segments: Set[common.WeightedLine] = simplify_segments(
+	    raw_segments, min_length)
 
 	for s in segments:
 		print('%f,%f,%f,%f,%d' % (
