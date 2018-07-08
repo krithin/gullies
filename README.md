@@ -1,7 +1,7 @@
 ## Gullies
 Maps of routes draining into a common sink from all over a road network.
 
-![US roads draining into NYC](output/us-contiguouslog.png)
+![US roads draining into NYC](output/usa.png)
 
 Inspired by moovel labs' [Roads to Rome](https://lab.moovel.com/projects/roads-to-rome) and Topi Tjukanov's [Roads of America](https://tjukanov.org/roadsofamerica/).
 

@@ -3,6 +3,7 @@
 import sys
 import math
 
+from mpl_toolkits.basemap import Basemap
 import matplotlib.pyplot as plt
 
 import common
@@ -21,6 +22,17 @@ if __name__ == '__main__':
 	fig = plt.figure(figsize=(30,30))
 	ax = fig.add_subplot(111)
 	ax.axes.set_aspect('equal', 'box')
+	# Use an Albers equal-area projection for the US
+	m = Basemap(projection='aea',
+	    # Standard parallels
+	    lat_1=29.5, lat_2=45.5,
+	    # Central point
+	    lat_0=39.83, lon_0=-98.58,
+	    # Coordinates of the corners of the map.
+	    llcrnrlon=-125.0, llcrnrlat=24.0,
+	    urcrnrlon=-66.0, urcrnrlat=49.5,
+	    # Don't read in any basemap boundary shapefiles.
+	    resolution=None)
 	ax.text(0.99, 0.01,
 	    'github.com/krithin/gullies. '
 	    'Data © OpenStreetMap contributors. '
@@ -29,8 +41,9 @@ if __name__ == '__main__':
 	    transform = ax.transAxes, fontsize = 12)
 	print('About to plot %d segments' % len(segments))
 	for s in segments:
-		plt.plot([s.start.longitude, s.end.longitude],
-		         [s.start.latitude, s.end.latitude],
+		startx, starty = m(s.start.longitude, s.start.latitude)
+		endx, endy = m(s.end.longitude, s.end.latitude)
+		plt.plot([startx, endx], [starty, endy],
 		         color = 'k', linestyle = '-', solid_capstyle = 'round',
 		         linewidth = math.log1p(s.weight))
 		count += 1
