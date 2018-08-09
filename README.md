@@ -1,6 +1,8 @@
 ## Gullies
 Maps of routes draining into a common sink from all over a road network.
 
+Prints of these images are available on my society6 page: https://society6.com/krithin
+
 ![US roads draining into NYC](output/usa.png)
 
 Inspired by moovel labs' [Roads to Rome](https://lab.moovel.com/projects/roads-to-rome) and Topi Tjukanov's [Roads of America](https://tjukanov.org/roadsofamerica/).
@@ -68,9 +70,14 @@ cd gullies
     cat nyroutes.txt | python collatesegments.py ~/new-york-latest.osm.pbf > nyroutescollated.txt
     ```
 
-4. And produce a plot:
+4. Simplify the collated routes:
     ```
-    cat nyroutescollated.txt | python plotmatplotlib.py new-york.png
+    cat nyroutescollated.txt | python simplifysegments.py 4 > nyroutessimplified.txt
+    ```
+
+5. And produce a plot:
+    ```
+    cat nyroutessimplified.txt | python plotmatplotlib.py new-york.png
     ```
     If you run this last step on a server machine without X or some other graphical interface installed, you might encounter a known Matplotlib issue for which the solution is to [explicitly specify a plotting backend](https://stackoverflow.com/questions/4931376/generating-matplotlib-graphs-without-a-running-x-server#4935945)
 

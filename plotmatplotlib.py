@@ -23,14 +23,14 @@ if __name__ == '__main__':
 	ax = fig.add_subplot(111)
 	ax.axes.set_aspect('equal', 'box')
 	# Use an Albers equal-area projection for the US
-	m = Basemap(projection='aea',
+	m = Basemap(projection='cyl',
 	    # Standard parallels
-	    lat_1=29.5, lat_2=45.5,
+	    #lat_1=1.26, lat_2=1.44,
 	    # Central point
-	    lat_0=39.83, lon_0=-98.58,
+	    #lat_0=1.35, lon_0=103.81,
 	    # Coordinates of the corners of the map.
-	    llcrnrlon=-125.0, llcrnrlat=24.0,
-	    urcrnrlon=-66.0, urcrnrlat=49.5,
+	    #llcrnrlon=103.5, llcrnrlat=1.2,
+	    #urcrnrlon=104.1, urcrnrlat=1.5,
 	    # Don't read in any basemap boundary shapefiles.
 	    resolution=None)
 	ax.text(0.99, 0.01,

@@ -72,8 +72,8 @@ if __name__ == '__main__':
 	if not len(sys.argv) == 2:
 		sys.exit('Usage: %s http://my-osrm-server.cc[:port]')
 
-	# Let's start at the empire state building in New York
-	start_location = Location(40.748433, -73.985656)
+	# Let's start at the merlion downtown
+	start_location = Location(1.2867695, 103.8545142)
 	osrm_client = OSRMRouteNodesClient(sys.argv[1], start_location)
 
 	# Read the lat,long coords of the destination points from stdin
