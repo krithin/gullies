@@ -85,9 +85,6 @@ cd gullies
 Australia from Sydney
 ![Australia roads](output/australia.png)
 
-Britain
-![Britain](output/britain.svg)
-
 Roads from all over New York state, draining into New York City:
 ![New York roads](output/newyork.png)
 
