@@ -1,0 +1,4 @@
+matplotlib
+basemap
+requests
+osmium
